@@ -9,6 +9,7 @@
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+<<<<<<< HEAD
   :root {
     --bg: #08090d;
     --bg2: #0e1018;
@@ -19,11 +20,23 @@
     --border2: rgba(255,255,255,0.12);
     --text: #f0f2f7;
     --muted: #8a8fa8;
+=======
+  :root {
+    --bg: #08090d;
+    --bg2: #0e1018;
+    --bg3: #13161f;
+    --card: #111419;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0f2f7;
+    --muted: #8a8fa8;
+>>>>>>> acecc9a782daef4d15662f36a9f3df3edc8c064c
     --accent: #3b7fff;
     --accent2: #00d4a0;
     --accent3: #ff6b35;
     --glow: rgba(59,127,255,0.15);
     --font-head: 'Syne', sans-serif;
+<<<<<<< HEAD
     --font-body: 'DM Sans', sans-serif;
   }
 
@@ -64,6 +77,21 @@
     overflow-x: hidden;
     transition: background 0.25s ease, color 0.25s ease;
   }
+=======
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+>>>>>>> acecc9a782daef4d15662f36a9f3df3edc8c064c
 
   /* NOISE OVERLAY */
   body::before {
@@ -83,12 +111,21 @@
     z-index: 100;
     display: flex;
     align-items: center;
+<<<<<<< HEAD
     justify-content: space-between;
     padding: 1.2rem 5vw;
     background: var(--nav-bg);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
   }
+=======
+    justify-content: space-between;
+    padding: 1.2rem 5vw;
+    background: rgba(8,9,13,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+>>>>>>> acecc9a782daef4d15662f36a9f3df3edc8c064c
 
   .nav-logo {
     font-family: var(--font-head);
@@ -116,6 +153,7 @@
     transition: color 0.2s;
   }
 
+<<<<<<< HEAD
   .nav-links a:hover { color: var(--text); }
 
   .nav-actions {
@@ -152,6 +190,12 @@
 
   .nav-cta {
     background: var(--accent);
+=======
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    background: var(--accent);
+>>>>>>> acecc9a782daef4d15662f36a9f3df3edc8c064c
     color: #fff !important;
     padding: 0.5rem 1.25rem;
     border-radius: 6px;
@@ -171,11 +215,19 @@
     overflow: hidden;
   }
 
+<<<<<<< HEAD
   .hero-glow {
     position: absolute;
     width: 600px; height: 600px;
     border-radius: 50%;
     background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+=======
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59,127,255,0.12) 0%, transparent 70%);
+>>>>>>> acecc9a782daef4d15662f36a9f3df3edc8c064c
     top: -100px; right: -100px;
     pointer-events: none;
   }
@@ -238,10 +290,17 @@
     margin-bottom: 0.5rem;
   }
 
+<<<<<<< HEAD
   .hero-name .line2 {
     -webkit-text-stroke: 1px var(--border2);
     color: transparent;
   }
+=======
+  .hero-name .line2 {
+    -webkit-text-stroke: 1px rgba(255,255,255,0.25);
+    color: transparent;
+  }
+>>>>>>> acecc9a782daef4d15662f36a9f3df3edc8c064c
 
   .hero-role {
     font-family: var(--font-head);
@@ -845,6 +904,7 @@
   }
 
   /* ── RESPONSIVE ── */
+<<<<<<< HEAD
   @media (max-width: 768px) {
     .hero-inner { grid-template-columns: 1fr; }
     .hero-stats { flex-direction: row; flex-wrap: wrap; }
@@ -858,11 +918,22 @@
     }
     .projects-grid { grid-template-columns: 1fr; }
   }
+=======
+  @media (max-width: 768px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-stats { flex-direction: row; flex-wrap: wrap; }
+    .stat-card { min-width: 120px; flex: 1; }
+    nav { padding: 1rem 4vw; }
+    .nav-links { display: none; }
+    .projects-grid { grid-template-columns: 1fr; }
+  }
+>>>>>>> acecc9a782daef4d15662f36a9f3df3edc8c064c
 </style>
 </head>
 <body>
 
 <!-- NAV -->
+<<<<<<< HEAD
 <nav>
   <a href="#" class="nav-logo">SK<span>.</span></a>
   <div class="nav-actions">
@@ -879,6 +950,18 @@
     </button>
   </div>
 </nav>
+=======
+<nav>
+  <a href="#" class="nav-logo">SK<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+  </ul>
+</nav>
+>>>>>>> acecc9a782daef4d15662f36a9f3df3edc8c064c
 
 <!-- HERO -->
 <section id="hero">
@@ -1174,6 +1257,7 @@
   <p class="footer-text">Available for freelance projects</p>
 </footer>
 
+<<<<<<< HEAD
 <script>
   const themeToggle = document.querySelector('.theme-toggle');
   const themeIcon = document.querySelector('.theme-icon');
@@ -1210,6 +1294,10 @@
   });
 
   const observer = new IntersectionObserver((entries) => {
+=======
+<script>
+  const observer = new IntersectionObserver((entries) => {
+>>>>>>> acecc9a782daef4d15662f36a9f3df3edc8c064c
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
         setTimeout(() => entry.target.classList.add('visible'), i * 80);
@@ -1220,4 +1308,8 @@
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 </script>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> acecc9a782daef4d15662f36a9f3df3edc8c064c
