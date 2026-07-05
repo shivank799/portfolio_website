@@ -84,36 +84,42 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.2rem 5vw;
+    padding: 1rem 5vw;
     background: var(--nav-bg);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
   }
 
   .nav-logo {
     font-family: var(--font-head);
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     font-weight: 800;
     letter-spacing: -0.02em;
     color: var(--text);
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
   }
 
   .nav-logo span { color: var(--accent); }
 
   .nav-links {
     display: flex;
-    gap: 2rem;
+    gap: 2.2rem;
     list-style: none;
   }
 
   .nav-links a {
     color: var(--muted);
     text-decoration: none;
-    font-size: 0.875rem;
+    font-size: 0.9rem;
     font-weight: 500;
     letter-spacing: 0.02em;
-    transition: color 0.2s;
+    transition: color 0.25s ease;
+    padding: 0.5rem 0;
   }
 
   .nav-links a:hover { color: var(--text); }
@@ -121,45 +127,55 @@
   .nav-actions {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
+    gap: 1rem;
+  }
+
+  .nav-social-link {
+    color: var(--muted);
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem;
+  }
+
+  .nav-social-link:hover {
+    color: var(--text);
+    transform: translateY(-1px);
   }
 
   .theme-toggle {
     border: 1px solid var(--border2);
-    background: var(--card);
+    background: rgba(255, 255, 255, 0.03);
     color: var(--text);
     border-radius: 8px;
-    padding: 0.5rem 0.85rem;
-    font: 600 0.8rem/1 var(--font-body);
+    padding: 0.5rem 0.8rem;
+    font: 600 0.8rem var(--font-body);
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
-    min-width: 112px;
+    gap: 0.4rem;
+    min-width: 105px;
     justify-content: center;
     transition: border-color 0.2s, background 0.2s, transform 0.2s;
-  }
-
-  .theme-toggle:hover {
-    border-color: var(--accent);
-    transform: translateY(-1px);
-  }
-
-  .theme-toggle:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 3px;
   }
 
   .nav-cta {
     background: var(--accent);
     color: #fff !important;
-    padding: 0.5rem 1.25rem;
-    border-radius: 6px;
-    font-weight: 500 !important;
-    transition: opacity 0.2s !important;
+    padding: 0.55rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600 !important;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 4px 15px rgba(59, 127, 255, 0.25);
   }
 
-  .nav-cta:hover { opacity: 0.85; color: #fff !important; }
+  .nav-cta:hover {
+    background: #256deb;
+    transform: translateY(-1px);
+  }
 
   /* ── HERO ── */
   #hero {
@@ -824,6 +840,22 @@
 
   .footer-logo span { color: var(--accent); }
 
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    color: var(--muted);
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover {
+    color: var(--text);
+  }
+
   /* ── SCROLL ANIMATIONS ── */
   .fade-in {
     opacity: 0;
@@ -844,19 +876,363 @@
     margin-bottom: 3rem;
   }
 
+  /* ── GLASSMORPHISM & REVAMP STYLES ── */
+  .glass-card {
+    background: rgba(17, 20, 25, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  [data-theme="light"] .glass-card {
+    background: rgba(255, 255, 255, 0.65);
+    border-color: rgba(15, 23, 42, 0.08);
+  }
+
+  .glass-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* DYNAMIC GLOW OVERLAY */
+  .glow-card {
+    position: relative;
+  }
+
+  .glow-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    background: radial-gradient(
+      600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+      rgba(59, 127, 255, 0.06),
+      transparent 40%
+    );
+  }
+
+  [data-theme="light"] .glow-overlay {
+    background: radial-gradient(
+      600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+      rgba(37, 99, 235, 0.04),
+      transparent 40%
+    );
+  }
+
+  .glow-card:hover .glow-overlay {
+    opacity: 1;
+  }
+
+  /* TERMINAL CONSOLE */
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 520px;
+    max-width: 100%;
+  }
+
+  .devops-console {
+    background: rgba(10, 12, 18, 0.75);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .devops-console:hover {
+    border-color: rgba(59, 127, 255, 0.3);
+  }
+
+  .console-header {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .console-dots {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .dot.close { background: #ff5f56; }
+  .dot.minimize { background: #ffbd2e; }
+  .dot.expand { background: #27c93f; }
+
+  .console-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .console-body {
+    padding: 1rem;
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+
+  .console-log {
+    overflow-y: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 0.5rem;
+    padding-right: 0.2rem;
+    text-align: left;
+  }
+
+  .console-log::-webkit-scrollbar {
+    width: 4px;
+  }
+  .console-log::-webkit-scrollbar-thumb {
+    background: var(--border2);
+    border-radius: 2px;
+  }
+
+  .log-line {
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .console-input-line {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    padding-top: 0.5rem;
+  }
+
+  .console-prompt {
+    color: var(--accent2);
+    font-weight: 600;
+  }
+
+  #console-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: inherit;
+    font-size: inherit;
+    flex-grow: 1;
+    padding: 0;
+  }
+
+  .text-green { color: var(--accent2); }
+  .text-cyan { color: #00d2ff; }
+  .text-coral { color: var(--accent3); }
+  .text-muted { color: var(--muted); }
+  .text-accent { color: var(--accent); }
+
+  .hero-stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .nav-links a.active {
+    color: var(--text);
+    position: relative;
+  }
+
+  .nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  /* Override original card colors to integrate with glass-card */
+  .skill-cat, .project-card, .edu-card, .stat-card {
+    background: rgba(17, 20, 25, 0.55);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  [data-theme="light"] .skill-cat,
+  [data-theme="light"] .project-card,
+  [data-theme="light"] .edu-card,
+  [data-theme="light"] .stat-card {
+    background: rgba(255, 255, 255, 0.65);
+    border-color: rgba(15, 23, 42, 0.08);
+  }
+
+  /* Project visual and details styles */
+  .project-info-block {
+    margin-bottom: 1.2rem;
+    text-align: left;
+  }
+  .project-desc-line {
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin-bottom: 0.6rem !important;
+    line-height: 1.6;
+  }
+  .project-visual {
+    width: 100%;
+    height: 220px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin: 1.2rem 0;
+    background: rgba(0, 0, 0, 0.15);
+  }
+  .project-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .project-visual:hover img {
+    transform: scale(1.04);
+  }
+  .project-links-row {
+    margin-top: 1.2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+  }
+  .project-link-btn {
+    font-size: 0.85rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.2s;
+  }
+  .project-link-btn:hover {
+    opacity: 0.8;
+  }
+
+  /* Writeups Section Styles */
+  .writeups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .writeup-card {
+    padding: 2rem;
+    border-radius: 14px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .writeup-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+  }
+  .writeup-date {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .writeup-title {
+    font-size: 1.2rem;
+    font-family: var(--font-head);
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    color: var(--text);
+  }
+  .writeup-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+  .writeup-link {
+    font-size: 0.85rem;
+    color: var(--accent2);
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .writeup-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Testimonials Section Styles */
+  .testimonials-container {
+    max-width: 800px;
+    margin: 3rem auto 0;
+    padding: 2.5rem;
+    border-radius: 16px;
+    position: relative;
+    text-align: center;
+  }
+  .testimonial-quote {
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+  .testimonial-author {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.2rem;
+  }
+  .testimonial-title {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
   /* ── RESPONSIVE ── */
+  @media (max-width: 992px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .hero-right { width: 100%; }
+  }
+
   @media (max-width: 768px) {
-    .hero-inner { grid-template-columns: 1fr; }
-    .hero-stats { flex-direction: row; flex-wrap: wrap; }
-    .stat-card { min-width: 120px; flex: 1; }
+    .hero-stats-row { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
     nav { padding: 1rem 4vw; }
-    .nav-links { display: none; }
-    .nav-actions { gap: 0; }
+    .nav-links, .nav-social-link { display: none; }
+    .nav-actions { gap: 0.5rem; }
     .theme-toggle {
-      min-width: 102px;
-      padding: 0.5rem 0.7rem;
+      min-width: 90px;
+      padding: 0.45rem 0.6rem;
     }
     .projects-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-stats-row { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -864,19 +1240,27 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">SK<span>.</span></a>
+  <a href="#" class="nav-logo">Shivank<span>.</span>DevOps</a>
+  
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+  </ul>
+  
   <div class="nav-actions">
-    <ul class="nav-links">
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#contact" class="nav-cta">Hire Me</a></li>
-    </ul>
+    <a href="https://github.com/shivank799" target="_blank" rel="noopener" class="nav-social-link" aria-label="GitHub">
+      <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577v-2.234c-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.82 1.102.82 2.222v3.293c0 .319.22.694.825.576C20.565 21.795 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+    </a>
+    <a href="https://linkedin.com/in/shivank-kumar-746a93254" target="_blank" rel="noopener" class="nav-social-link" aria-label="LinkedIn">
+      <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+    </a>
     <button class="theme-toggle" type="button" aria-label="Switch to light mode">
       <span class="theme-icon" aria-hidden="true">L</span>
       <span class="theme-label">Light Mode</span>
     </button>
+    <a href="#contact" class="nav-cta">Hire Me</a>
   </div>
 </nav>
 
@@ -886,7 +1270,7 @@
   <div class="hero-glow2"></div>
   <div class="hero-inner">
     <div class="hero-content">
-      <div class="hero-badge">Available for Freelance</div>
+      <div class="hero-badge">Open to: Full-Time Roles · Freelance Projects</div>
       <h1 class="hero-name">
         Shivank<br>
         <span class="line2">Kumar</span>
@@ -900,23 +1284,52 @@
           <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
           Get In Touch
         </a>
+        <a href="assets/resume.pdf" target="_blank" class="btn-outline">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="margin-right:0.4rem; display:inline-block; vertical-align:middle;"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          Resume PDF
+        </a>
         <a href="#projects" class="btn-outline">
           View Projects →
         </a>
       </div>
     </div>
-    <div class="hero-stats">
-      <div class="stat-card">
-        <div class="stat-num">40<span>%</span></div>
-        <div class="stat-label">Faster Deployments</div>
+    <div class="hero-right">
+      <!-- DEVOPS CONSOLE -->
+      <div class="devops-console glass-card">
+        <div class="console-header">
+          <div class="console-dots">
+            <span class="dot close"></span>
+            <span class="dot minimize"></span>
+            <span class="dot expand"></span>
+          </div>
+          <div class="console-title">devops@shivank-infra:~</div>
+        </div>
+        <div class="console-body">
+          <div class="console-log" id="console-log">
+            <div class="log-line text-cyan"># Welcome to Shivank's DevOps Terminal (v1.2.0).</div>
+            <div class="log-line text-muted"># Type 'help' to view available operations.</div>
+          </div>
+          <div class="console-input-line">
+            <span class="console-prompt">shivank-infra:~$</span>
+            <input type="text" id="console-input" autofocus autocomplete="off" spellcheck="false" placeholder="type 'help'..."/>
+          </div>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-num">25<span>%</span></div>
-        <div class="stat-label">Cloud Cost Saved</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">2<span>+</span></div>
-        <div class="stat-label">Years DevOps XP</div>
+
+      <!-- HERO STATS ROW -->
+      <div class="hero-stats-row">
+        <div class="stat-card glass-card" data-target="40">
+          <div class="stat-num"><span class="counter">0</span><span>%</span></div>
+          <div class="stat-label">Faster Deployments</div>
+        </div>
+        <div class="stat-card glass-card" data-target="25">
+          <div class="stat-num"><span class="counter">0</span><span>%</span></div>
+          <div class="stat-label">Cloud Cost Saved</div>
+        </div>
+        <div class="stat-card glass-card" data-target="1">
+          <div class="stat-num"><span class="counter">0</span><span>+</span></div>
+          <div class="stat-label">Year DevOps XP</div>
+        </div>
       </div>
     </div>
   </div>
@@ -929,55 +1342,53 @@
     <h2 class="section-title">Core Competencies</h2>
     <p class="section-sub">A full-stack DevOps toolkit built for production-grade cloud systems.</p>
     <div class="skills-grid">
-      <div class="skill-cat c1 fade-in">
+      <div class="skill-cat c1 glow-card fade-in">
+        <div class="glow-overlay"></div>
         <span class="skill-cat-icon">☁️</span>
-        <p class="skill-cat-title">Cloud Platforms</p>
+        <p class="skill-cat-title">Cloud &amp; Infrastructure</p>
         <div class="skill-tags">
-          <span class="skill-tag">AWS ECS Fargate</span>
-          <span class="skill-tag">EKS</span>
-          <span class="skill-tag">EC2</span>
-          <span class="skill-tag">Lambda</span>
-          <span class="skill-tag">CloudWatch</span>
-          <span class="skill-tag">SNS</span>
-          <span class="skill-tag">IAM</span>
-          <span class="skill-tag">VPC</span>
-          <span class="skill-tag">ALB</span>
+          <span class="skill-tag">AWS</span>
           <span class="skill-tag">GCP</span>
+          <span class="skill-tag">VPC</span>
+          <span class="skill-tag">Subnets</span>
+          <span class="skill-tag">Networking</span>
+          <span class="skill-tag">Load Balancing</span>
+          <span class="skill-tag">Security Groups</span>
         </div>
       </div>
-      <div class="skill-cat c2 fade-in">
+      <div class="skill-cat c2 glow-card fade-in">
+        <div class="glow-overlay"></div>
         <span class="skill-cat-icon">🔄</span>
         <p class="skill-cat-title">CI/CD &amp; GitOps</p>
         <div class="skill-tags">
           <span class="skill-tag">GitHub Actions</span>
-          <span class="skill-tag">Jenkins</span>
           <span class="skill-tag">ArgoCD</span>
-          <span class="skill-tag">GitOps</span>
-          <span class="skill-tag">SonarQube</span>
-          <span class="skill-tag">Trivy</span>
+          <span class="skill-tag">Jenkins</span>
+          <span class="skill-tag">CircleCI</span>
         </div>
       </div>
-      <div class="skill-cat c3 fade-in">
+      <div class="skill-cat c3 glow-card fade-in">
+        <div class="glow-overlay"></div>
         <span class="skill-cat-icon">🐳</span>
         <p class="skill-cat-title">Containers &amp; Orchestration</p>
         <div class="skill-tags">
           <span class="skill-tag">Docker</span>
-          <span class="skill-tag">Kubernetes (K8s)</span>
-          <span class="skill-tag">Microservices</span>
-          <span class="skill-tag">Container Orchestration</span>
+          <span class="skill-tag">Kubernetes</span>
+          <span class="skill-tag">Helm</span>
         </div>
       </div>
-      <div class="skill-cat c4 fade-in">
+      <div class="skill-cat c4 glow-card fade-in">
+        <div class="glow-overlay"></div>
         <span class="skill-cat-icon">🏗️</span>
-        <p class="skill-cat-title">Infrastructure as Code</p>
+        <p class="skill-cat-title">IaC &amp; Config Management</p>
         <div class="skill-tags">
           <span class="skill-tag">Terraform</span>
+          <span class="skill-tag">Ansible</span>
           <span class="skill-tag">YAML</span>
-          <span class="skill-tag">Cloud Provisioning</span>
-          <span class="skill-tag">IaC Automation</span>
         </div>
       </div>
-      <div class="skill-cat c5 fade-in">
+      <div class="skill-cat c5 glow-card fade-in">
+        <div class="glow-overlay"></div>
         <span class="skill-cat-icon">📊</span>
         <p class="skill-cat-title">Monitoring &amp; Observability</p>
         <div class="skill-tags">
@@ -985,21 +1396,21 @@
           <span class="skill-tag">Grafana</span>
           <span class="skill-tag">ELK Stack</span>
           <span class="skill-tag">CloudWatch</span>
-          <span class="skill-tag">Alerting</span>
-          <span class="skill-tag">Incident Mgmt</span>
+          <span class="skill-tag">Datadog</span>
         </div>
       </div>
-      <div class="skill-cat c6 fade-in">
+      <div class="skill-cat c6 glow-card fade-in">
+        <div class="glow-overlay"></div>
         <span class="skill-cat-icon">⚙️</span>
-        <p class="skill-cat-title">Languages &amp; Tools</p>
+        <p class="skill-cat-title">Languages &amp; Automation</p>
         <div class="skill-tags">
           <span class="skill-tag">Python</span>
           <span class="skill-tag">Bash / Shell</span>
-          <span class="skill-tag">SQL</span>
           <span class="skill-tag">Linux</span>
           <span class="skill-tag">Git</span>
-          <span class="skill-tag">Networking</span>
-          <span class="skill-tag">DNS</span>
+          <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MongoDB</span>
         </div>
       </div>
     </div>
@@ -1019,14 +1430,16 @@
           <span class="exp-period">Dec 2025 – Present</span>
           <span class="exp-badge-current">● Current</span>
         </div>
-        <p class="exp-company">India Accelerator <span class="exp-location">— Gurugram, India</span></p>
-        <p class="exp-role">DevOps Engineer Intern</p>
+        <p class="exp-company">India Accelerator <span class="exp-location">— Gurugram, Haryana</span></p>
+        <p class="exp-role">DevOps Engineer</p>
         <ul class="exp-points">
-          <li>Designed &amp; implemented CI/CD pipelines using GitHub Actions — <span class="exp-highlight">reduced deployment time by 40%</span> with fully automated build, test &amp; deploy workflows.</li>
-          <li>Deployed containerized microservices on <span class="exp-highlight">AWS ECS Fargate &amp; EKS</span> using ArgoCD-based GitOps, improving rollback reliability.</li>
-          <li>Provisioned cloud-native infrastructure using <span class="exp-highlight">Terraform</span> — VPC, ALB, IAM roles, and security groups — eliminating manual overhead.</li>
-          <li>Built end-to-end observability with <span class="exp-highlight">Prometheus, Grafana &amp; CloudWatch</span> and automated alerting for critical infrastructure metrics.</li>
-          <li>Optimized cloud costs by <span class="exp-highlight">15%</span> via resource rightsizing and unused resource cleanup while maintaining high availability.</li>
+          <li>Orchestrated and managed <span class="exp-highlight">20+ microservices on Amazon EKS</span> across staging and production environments, implementing rolling updates, health checks, and auto-scaling policies — <span class="exp-highlight">reducing deployment failures by 40%</span> and ensuring zero-downtime releases.</li>
+          <li>Engineered end-to-end CI/CD pipelines using <span class="exp-highlight">AWS CodeBuild and GitOps</span> with branch-based deployment strategies, cutting manual release effort by 60% and reducing average deployment time from 45 minutes to <span class="exp-highlight">under 10 minutes</span>.</li>
+          <li>Architected and provisioned cloud infrastructure using <span class="exp-highlight">Terraform across AWS and GCP</span>, building 10+ reusable modules that reduced infrastructure provisioning time by 70% and eliminated environment inconsistencies.</li>
+          <li>Administered <span class="exp-highlight">PostgreSQL and MySQL RDS databases</span> with comprehensive monitoring, alerting, and performance tuning — improving query response time by 35% and reducing database-related incidents by 50%.</li>
+          <li>Sustained <span class="exp-highlight">99.9%+ application uptime</span> across production workloads by applying SRE practices including proactive monitoring, on-call incident response, and post-mortem-driven reliability improvements — reducing MTTR by 45%.</li>
+          <li>Implemented cloud security best practices including <span class="exp-highlight">IAM least-privilege policies</span> and secrets management across multi-cloud environments, reducing security misconfigurations by 80% and achieving full compliance with internal security standards.</li>
+          <li>Operated in Linux-based environments (Ubuntu/Amazon Linux), writing <span class="exp-highlight">15+ Bash automation scripts</span> for log analysis, cron scheduling, and system administration — saving approximately 8 hours of manual work per week.</li>
         </ul>
       </div>
 
@@ -1034,25 +1447,13 @@
         <div class="exp-meta">
           <span class="exp-period">Jul 2025 – Oct 2025</span>
         </div>
-        <p class="exp-company">CloudTechie <span class="exp-location">— Indore, India</span></p>
-        <p class="exp-role">DevOps Engineer Intern</p>
+        <p class="exp-company">CloudTechie Pvt Ltd <span class="exp-location">— Indore, Madhya Pradesh</span></p>
+        <p class="exp-role">DevOps Intern</p>
         <ul class="exp-points">
-          <li>Built and maintained CI/CD automation using <span class="exp-highlight">GitHub Actions</span> across multiple environments for build, integration testing, and deployment.</li>
-          <li>Deployed Dockerized applications on <span class="exp-highlight">AWS EC2 &amp; ECS</span> with container orchestration best practices and automated health monitoring.</li>
-          <li>Automated repetitive infrastructure tasks using <span class="exp-highlight">Bash &amp; Python scripting</span>, reducing manual operational overhead.</li>
-          <li>Configured monitoring pipelines using <span class="exp-highlight">Prometheus, Grafana &amp; CloudWatch</span> for real-time application visibility.</li>
-        </ul>
-      </div>
-
-      <div class="exp-item fade-in">
-        <div class="exp-meta">
-          <span class="exp-period">May 2022 – Jul 2025</span>
-        </div>
-        <p class="exp-company">SunTech Web Service <span class="exp-location">— Delhi, India</span></p>
-        <p class="exp-role">Process Associate</p>
-        <ul class="exp-points">
-          <li>Managed web service operations and cross-functional workflows, building foundational knowledge of <span class="exp-highlight">Linux systems and networking</span>.</li>
-          <li>Developed process improvement initiatives reducing operational bottlenecks — laying groundwork for transition into DevOps engineering.</li>
+          <li>Designed and implemented CI/CD pipelines using <span class="exp-highlight">GitHub Actions</span>, automating deployments for 5+ applications and reducing manual deployment effort by 55%.</li>
+          <li>Deployed and managed Dockerized applications on <span class="exp-highlight">AWS (EC2, ECS, IAM)</span>, supporting a containerized infrastructure that improved application portability and reduced environment setup time by 50%.</li>
+          <li>Automated <span class="exp-highlight">10+ operational tasks</span> using Bash and Python scripting, eliminating repetitive manual processes and saving approximately 6 hours of engineering time per week.</li>
+          <li>Set up end-to-end monitoring and observability stack using <span class="exp-highlight">Prometheus, Grafana, and AWS CloudWatch</span>, reducing mean time to detect (MTTD) incidents by 40% and improving overall system visibility.</li>
         </ul>
       </div>
 
@@ -1068,40 +1469,190 @@
     <p class="section-sub">Real-world infrastructure deployments with measurable impact.</p>
     <div class="projects-grid">
 
-      <div class="project-card fade-in">
+      <!-- PROJECT 1 -->
+      <div class="project-card glow-card fade-in">
+        <div class="glow-overlay"></div>
         <p class="project-num">Project 01</p>
-        <h3 class="project-title">Production MERN Stack Deployment on Kubernetes</h3>
-        <p class="project-desc">
-          Architected and deployed a full containerized MERN stack on Kubernetes with GitOps-based continuous delivery, full observability, and automated security scanning built into every stage.
-        </p>
+        <h3 class="project-title">Docker Security Scan &amp; Vulnerability Remediation</h3>
+        <div class="project-info-block">
+          <p class="project-desc-line"><strong>Problem:</strong> Frontend build container contained critical vulnerabilities (high-severity CVEs) in base image, failing enterprise compliance standards.</p>
+          <p class="project-desc-line"><strong>Approach:</strong> Migrated base configuration to hardened multi-stage Distroless/Alpine images, configured automated Trivy/SonarQube scans in GitHub Actions, and implemented image signing.</p>
+          <p class="project-desc-line"><strong>Outcome:</strong> <span class="exp-highlight">Eliminated 100% of critical container vulnerabilities</span> and reduced image size by 45%.</p>
+        </div>
+        <div class="project-visual">
+          <img src="assets/projects/challanpay-docker-scan.png" alt="Trivy security scan dashboard showing zero critical vulnerabilities" loading="lazy" />
+        </div>
         <div class="project-tags">
-          <span class="project-tag blue">Kubernetes</span>
+          <span class="project-tag orange">Docker</span>
+          <span class="project-tag blue">Trivy</span>
+          <span class="project-tag green">SonarQube</span>
+          <span class="project-tag teal">GitHub Actions</span>
+          <span class="project-tag purple">AWS ECR</span>
+        </div>
+        <div class="project-links-row">
+          <span class="project-link-btn text-muted" style="cursor: default;">Private Repo</span>
+        </div>
+      </div>
+
+      <!-- PROJECT 2 -->
+      <div class="project-card glow-card fade-in">
+        <div class="glow-overlay"></div>
+        <p class="project-num">Project 02</p>
+        <h3 class="project-title">Production Database Debugging &amp; Connection Pooling</h3>
+        <div class="project-info-block">
+          <p class="project-desc-line"><strong>Problem:</strong> Production servers encountered database lockouts and connection timeout failures during peak traffic events.</p>
+          <p class="project-desc-line"><strong>Approach:</strong> Configured Prisma connection pooling, optimized indexing on high-frequency tables, and set up Datadog monitoring for lock detection.</p>
+          <p class="project-desc-line"><strong>Outcome:</strong> <span class="exp-highlight">Reduced query latency by 35%</span> and completely eliminated connection timeouts.</p>
+        </div>
+        <div class="project-visual">
+          <img src="assets/projects/proddblawyered-db-debug.png" alt="Datadog performance graph showing query latency dropping from peak to baseline" loading="lazy" />
+        </div>
+        <div class="project-tags">
+          <span class="project-tag blue">Node.js</span>
+          <span class="project-tag orange">Prisma ORM</span>
+          <span class="project-tag green">MySQL RDS</span>
+          <span class="project-tag teal">AWS CloudWatch</span>
+          <span class="project-tag purple">Datadog</span>
+        </div>
+        <div class="project-links-row">
+          <span class="project-link-btn text-muted" style="cursor: default;">Private Repo</span>
+        </div>
+      </div>
+
+      <!-- PROJECT 3 -->
+      <div class="project-card glow-card fade-in">
+        <div class="glow-overlay"></div>
+        <p class="project-num">Project 03</p>
+        <h3 class="project-title">NGINX Zero-Day CVE-2026-42945 Vulnerability Remediation</h3>
+        <div class="project-info-block">
+          <p class="project-desc-line"><strong>Problem:</strong> Staging and production NGINX reverse-proxy nodes were exposed to an active remote code execution zero-day vulnerability (CVE-2026-42945).</p>
+          <p class="project-desc-line"><strong>Approach:</strong> Wrote an Ansible playbook to compile and distribute emergency security patches across all VPC nodes, and configured threat mitigation rules.</p>
+          <p class="project-desc-line"><strong>Outcome:</strong> <span class="exp-highlight">Successfully patched all 15 nodes in under 2 hours</span> with zero application downtime.</p>
+        </div>
+        <div class="project-visual">
+          <img src="assets/projects/nginx-cve-patch.png" alt="Terminal showing Ansible playbook executing NGINX vulnerability patching successfully" loading="lazy" />
+        </div>
+        <div class="project-tags">
+          <span class="project-tag orange">NGINX</span>
+          <span class="project-tag blue">Ansible</span>
+          <span class="project-tag green">VPC</span>
+          <span class="project-tag teal">Linux Admin</span>
+          <span class="project-tag purple">Security Patching</span>
+        </div>
+        <div class="project-links-row">
+          <span class="project-link-btn text-muted" style="cursor: default;">Private Repo</span>
+        </div>
+      </div>
+
+      <!-- PROJECT 4 -->
+      <div class="project-card glow-card fade-in">
+        <div class="glow-overlay"></div>
+        <p class="project-num">Project 04</p>
+        <h3 class="project-title">Multi-Environment EKS Deployment with CI/CD Automation</h3>
+        <div class="project-info-block">
+          <p class="project-desc-line"><strong>Problem:</strong> High release complexity and lack of staging environments slowed down development feedback cycles.</p>
+          <p class="project-desc-line"><strong>Approach:</strong> Deployed 3 microservices on Amazon EKS under a single domain using Ingress, and built branch-based AWS CodeBuild pipelines synced with ArgoCD GitOps.</p>
+          <p class="project-desc-line"><strong>Outcome:</strong> <span class="exp-highlight">Reduced environment setup time by 65%</span> and cut deployment cycles by 60%.</p>
+        </div>
+        <div class="project-visual">
+          <img src="assets/projects/eks-deployment-architecture.png" alt="Kubernetes EKS cloud architecture diagram with Ingress, pods, and ArgoCD sync" loading="lazy" />
+        </div>
+        <div class="project-tags">
+          <span class="project-tag blue">AWS EKS</span>
           <span class="project-tag orange">Terraform</span>
           <span class="project-tag purple">ArgoCD</span>
-          <span class="project-tag teal">GitHub Actions</span>
-          <span class="project-tag green">Prometheus</span>
-          <span class="project-tag blue">SonarQube</span>
-          <span class="project-tag orange">Trivy</span>
+          <span class="project-tag teal">GitOps</span>
+          <span class="project-tag green">CodeBuild</span>
+          <span class="project-tag blue">Ingress</span>
         </div>
-        <div class="project-impact">Full CI/CD pipeline with security scanning &amp; GitOps delivery</div>
+        <div class="project-links-row">
+          <span class="project-link-btn text-muted" style="cursor: default;">Private Repo</span>
+        </div>
       </div>
 
-      <div class="project-card fade-in">
-        <p class="project-num">Project 02</p>
-        <h3 class="project-title">AWS Cost Optimization Automation via Lambda</h3>
-        <p class="project-desc">
-          Engineered a serverless cost governance system that auto-shuts down EC2 instances off-hours and cleans up idle EBS volumes — slashing non-production cloud spend with zero manual intervention.
-        </p>
+      <!-- PROJECT 5 -->
+      <div class="project-card glow-card fade-in">
+        <div class="glow-overlay"></div>
+        <p class="project-num">Project 05</p>
+        <h3 class="project-title">Full-Stack Application Deployment on Amazon ECS</h3>
+        <div class="project-info-block">
+          <p class="project-desc-line"><strong>Problem:</strong> Lack of secure host segregation exposed backend services to direct public internet access.</p>
+          <p class="project-desc-line"><strong>Approach:</strong> Architected a custom AWS VPC with isolated subnets, and deployed full-stack containerized applications on ECS Fargate with container delivery via GitHub Actions.</p>
+          <p class="project-desc-line"><strong>Outcome:</strong> Achieved <span class="exp-highlight">99.9% container uptime</span> and reduced misconfiguration risks by 60%.</p>
+        </div>
+        <div class="project-visual">
+          <img src="assets/projects/ecs-fargate-vpc.png" alt="AWS Cloud VPC architecture diagram showing public subnets and private ECS tasks" loading="lazy" />
+        </div>
         <div class="project-tags">
-          <span class="project-tag orange">AWS Lambda</span>
-          <span class="project-tag blue">CloudWatch Events</span>
-          <span class="project-tag teal">SNS Alerts</span>
-          <span class="project-tag green">EC2</span>
-          <span class="project-tag purple">EBS</span>
+          <span class="project-tag orange">AWS VPC</span>
+          <span class="project-tag blue">ECS Fargate</span>
+          <span class="project-tag teal">ECR</span>
+          <span class="project-tag green">GitHub Actions</span>
+          <span class="project-tag purple">PostgreSQL RDS</span>
+          <span class="project-tag orange">Redis</span>
         </div>
-        <div class="project-impact">~25% reduction in non-production cloud spend across AWS accounts</div>
+        <div class="project-links-row">
+          <span class="project-link-btn text-muted" style="cursor: default;">Private Repo</span>
+        </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- WRITEUPS -->
+<section id="writeups">
+  <div class="section-inner">
+    <p class="section-tag">Field Notes</p>
+    <h2 class="section-title">Technical Writeups</h2>
+    <p class="section-sub">Deep dives into production debugging, security compilation, and optimization stories.</p>
+    
+    <div class="writeups-grid">
+      <!-- Writeup 1 -->
+      <div class="writeup-card glass-card glow-card fade-in">
+        <div class="glow-overlay"></div>
+        <div>
+          <div class="writeup-date">July 2026</div>
+          <h3 class="writeup-title">NGINX CVE-2026-42945 Emergency Patching</h3>
+          <p class="writeup-desc">Emergency patching of zero-day remote code execution vulnerability across 15 active nodes without service downtime.</p>
+        </div>
+        <a href="writeups/nginx-cve.html" class="writeup-link">Read full writeup →</a>
+      </div>
+
+      <!-- Writeup 2 -->
+      <div class="writeup-card glass-card glow-card fade-in">
+        <div class="glow-overlay"></div>
+        <div>
+          <div class="writeup-date">May 2026</div>
+          <h3 class="writeup-title">MySQL utf8mb4 Charset Migration</h3>
+          <p class="writeup-desc">Production query truncation debugging and schema migration strategy under live client loads with zero DB locks.</p>
+        </div>
+        <a href="writeups/prisma-charset.html" class="writeup-link">Read full writeup →</a>
+      </div>
+
+      <!-- Writeup 3 -->
+      <div class="writeup-card glass-card glow-card fade-in">
+        <div class="glow-overlay"></div>
+        <div>
+          <div class="writeup-date">March 2026</div>
+          <h3 class="writeup-title">Docker Alpine base image CVE Remediation</h3>
+          <p class="writeup-desc">Reducing build attack surface by migrating Alpine base tags to hardened multi-stage Distroless runtimes.</p>
+        </div>
+        <a href="writeups/alpine-docker.html" class="writeup-link">Read full writeup →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-inner">
+    <p class="section-tag">References</p>
+    <h2 class="section-title">Testimonials</h2>
+    <div class="testimonials-container glass-card">
+      <p class="testimonial-quote">"Shivank's automation of our staging pipelines cut down our release cycle times dramatically. His diligence with infrastructure-as-code and security patches made him an invaluable asset to our team."</p>
+      <p class="testimonial-author">Abhinav Sharma</p>
+      <p class="testimonial-title">Lead Systems Architect, India Accelerator</p>
     </div>
   </div>
 </section>
@@ -1113,23 +1664,40 @@
     <h2 class="section-title">Education &amp; Certifications</h2>
     <div class="section-divider"></div>
     <div class="edu-grid">
-      <div class="edu-card fade-in">
+      <div class="edu-card glow-card fade-in">
+        <div class="glow-overlay"></div>
         <div class="edu-icon degree">🎓</div>
-        <p class="edu-degree">MCA — DevOps Specialization</p>
+        <p class="edu-degree">MCA — DevOps (Online)</p>
         <p class="edu-inst">Manipal University, Jaipur</p>
-        <p class="edu-year">Expected 2026 · In Progress</p>
+        <p class="edu-year">Pursuing · 2026</p>
       </div>
-      <div class="edu-card fade-in">
+      <div class="edu-card glow-card fade-in">
+        <div class="glow-overlay"></div>
         <div class="edu-icon degree">🎓</div>
-        <p class="edu-degree">B.Sc. — Mathematics</p>
-        <p class="edu-inst">IGNOU, Delhi</p>
-        <p class="edu-year">Completed 2025</p>
+        <p class="edu-degree">B.Sc. — Mathematics (70%)</p>
+        <p class="edu-inst">Indira Gandhi National Open University</p>
+        <p class="edu-year">Completed · 2025</p>
       </div>
-      <div class="edu-card fade-in">
+      <div class="edu-card glow-card fade-in">
+        <div class="glow-overlay"></div>
         <div class="edu-icon cert">🏅</div>
         <p class="edu-degree">DevOps &amp; Cloud Computing</p>
-        <p class="edu-inst">PW Skills — Certification</p>
-        <p class="edu-year">2025</p>
+        <p class="edu-inst">PW Skills Certification</p>
+        <p class="edu-year">Completed · 2025</p>
+      </div>
+      <div class="edu-card glow-card fade-in">
+        <div class="glow-overlay"></div>
+        <div class="edu-icon cert">🏅</div>
+        <p class="edu-degree">DevOps &amp; Cloud Infra Professional</p>
+        <p class="edu-inst">Oracle Certification</p>
+        <p class="edu-year">Completed · 2026</p>
+      </div>
+      <div class="edu-card glow-card fade-in">
+        <div class="glow-overlay"></div>
+        <div class="edu-icon cert">🏅</div>
+        <p class="edu-degree">Information Technology</p>
+        <p class="edu-inst">Skills India Certification</p>
+        <p class="edu-year">Completed · 2021</p>
       </div>
     </div>
   </div>
@@ -1143,9 +1711,9 @@
       <h2 class="contact-title">Ready to work<br><span style="color:var(--accent)">with you</span></h2>
       <p class="contact-sub">Whether you need CI/CD pipelines, cloud infrastructure, or container orchestration — let's talk.</p>
       <div class="contact-links">
-        <a href="mailto:sivanks799@gmail.com" class="contact-link">
+        <a href="mailto:shivankkumar.devops@gmail.com" class="contact-link">
           <svg class="contact-link-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-          sivanks799@gmail.com
+          shivankkumar.devops@gmail.com
         </a>
         <a href="tel:+919968002565" class="contact-link">
           <svg class="contact-link-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
@@ -1155,12 +1723,16 @@
           <svg class="contact-link-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
           linkedin.com/in/shivank-kumar-746a93254
         </a>
+        <a href="https://github.com/shivank799" target="_blank" rel="noopener" class="contact-link">
+          <svg class="contact-link-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577v-2.234c-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.82 1.102.82 2.222v3.293c0 .319.22.694.825.576C20.565 21.795 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          github.com/shivank799
+        </a>
         <div class="contact-link" style="cursor:default; justify-content:center;">
           <svg class="contact-link-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
           New Delhi, India
         </div>
       </div>
-      <a href="mailto:sivanks799@gmail.com" class="btn-primary" style="width:100%; justify-content:center; font-size:1rem; padding:1rem;">
+      <a href="mailto:shivankkumar.devops@gmail.com" class="btn-primary" style="width:100%; justify-content:center; font-size:1rem; padding:1rem;">
         Send Me a Message ↗
       </a>
     </div>
@@ -1169,9 +1741,14 @@
 
 <!-- FOOTER -->
 <footer>
-  <a href="#" class="footer-logo">SK<span>.</span></a>
-  <p class="footer-text">© 2025 Shivank Kumar · DevOps Engineer · New Delhi, India</p>
-  <p class="footer-text">Available for freelance projects</p>
+  <a href="#" class="footer-logo">Shivank<span>.</span>DevOps</a>
+  <div class="footer-links">
+    <a href="https://github.com/shivank799" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/shivank-kumar-746a93254" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:shivankkumar.devops@gmail.com">Email</a>
+    <a href="assets/resume.pdf" target="_blank">Resume PDF</a>
+  </div>
+  <p class="footer-text">© 2026 Shivank Kumar · DevOps Engineer · New Delhi, India</p>
 </footer>
 
 <script>
@@ -1218,6 +1795,177 @@
   }, { threshold: 0.1 });
 
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // CLI TERMINAL LOGIC
+  const consoleInput = document.getElementById('console-input');
+  const consoleLog = document.getElementById('console-log');
+
+  const printLog = (text, className = '') => {
+    const line = document.createElement('div');
+    line.className = `log-line ${className}`;
+    line.innerHTML = text;
+    consoleLog.appendChild(line);
+    consoleLog.scrollTop = consoleLog.scrollHeight;
+  };
+
+  const commands = {
+    help: () => {
+      printLog('Available commands:', 'text-accent');
+      printLog('  about    - Brief summary about me');
+      printLog('  skills   - List key technical skills');
+      printLog('  projects - List selected project highlights');
+      printLog('  deploy   - Run mock staging infrastructure deployment');
+      printLog('  clear    - Clear console output screen');
+    },
+    about: () => {
+      printLog('Shivank Kumar - DevOps Engineer & Cloud Specialist.', 'text-green');
+      printLog('Currently working at India Accelerator (Gurugram). Proficient in building EKS/ECS cloud networks, automating build/deploy pipelines, and GitOps workflows.');
+    },
+    skills: () => {
+      printLog('Core Tech Stack:', 'text-cyan');
+      printLog('  Cloud:         AWS, GCP');
+      printLog('  Containers:    Docker, Kubernetes, Helm');
+      printLog('  IaC:           Terraform, Ansible, YAML');
+      printLog('  CI/CD:         GitHub Actions, ArgoCD, Jenkins');
+      printLog('  Monitoring:    Prometheus, Grafana, CloudWatch');
+      printLog('  Languages:     Python, Bash / Shell');
+    },
+    projects: () => {
+      printLog('Selected Deployments & Remediation:', 'text-cyan');
+      printLog('  1. Docker-Vulnerability-Scan: Hardened frontends, eliminated critical CVEs.');
+      printLog('  2. Prod-DB-Latency-Fix: Connection pooling & schema optimization (35% faster).');
+      printLog('  3. NGINX-CVE-Remediation: Compiling & rolling out hot patches to 15 nodes.');
+      printLog('  4. AWS-EKS-GitOps-Automation: Kubernetes Multi-Environment CI/CD.');
+      printLog('  5. AWS-ECS-Fargate-Infra: Secure, multi-subnet Fargate containers.');
+    },
+    deploy: () => {
+      let step = 0;
+      const logs = [
+        '[INFO] Starting pipeline: partners-portal-fe-feature-pipeline...',
+        '[INFO] Pulling source branch: feature-branch from Git...',
+        '[INFO] Initializing Docker build process...',
+        'Step 1/8 : FROM node:20-alpine',
+        ' ---> 1ba6a31c5b8b',
+        'Step 2/8 : WORKDIR /app',
+        ' ---> Running in b392df894c1a',
+        '[BUILD] Building assets with Vite base url...',
+        '[BUILD] Bundle completed. Size: 1.24MB. 0 errors, 2 warnings.',
+        '[INFO] Tagging image as ECR target...',
+        '[INFO] Pushing ECR: 344367180480.dkr.ecr.ap-south-1.amazonaws.com/partners-portal-fe-feature:latest',
+        '[PUSH] Image push complete. Hash: sha256:d8c2d1b...',
+        '[GITOPS] Committing manifest update: stg-partners-portal-fe-feature.yaml',
+        '[ARGO-CD] Application stg-partners-portal-fe-feature synced successfully!',
+        '[SUCCESS] Deployment complete. Host online at https://stg-partners-feature.lawyered.in'
+      ];
+
+      consoleInput.disabled = true;
+      const interval = setInterval(() => {
+        if (step < logs.length) {
+          const isSuccess = logs[step].includes('[SUCCESS]');
+          const isBuild = logs[step].includes('[BUILD]') || logs[step].includes('[PUSH]');
+          let colorClass = 'text-muted';
+          if (isSuccess) colorClass = 'text-green';
+          else if (isBuild) colorClass = 'text-cyan';
+          else if (logs[step].includes('[INFO]')) colorClass = 'text-accent';
+
+          printLog(logs[step], colorClass);
+          step++;
+        } else {
+          clearInterval(interval);
+          consoleInput.disabled = false;
+          consoleInput.focus();
+        }
+      }, 500);
+    },
+    clear: () => {
+      consoleLog.innerHTML = '';
+    }
+  };
+
+  consoleInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const inputVal = consoleInput.value.trim().toLowerCase();
+      printLog(`shivank-infra:~$ ${consoleInput.value}`, 'text-accent');
+      
+      if (inputVal) {
+        if (commands[inputVal]) {
+          commands[inputVal]();
+        } else {
+          printLog(`sh: command not found: ${consoleInput.value}. Type 'help' for options.`, 'text-coral');
+        }
+      }
+      consoleInput.value = '';
+    }
+  });
+
+  // Focus console input when terminal container is clicked
+  document.querySelector('.devops-console').addEventListener('click', () => {
+    if (!consoleInput.disabled) consoleInput.focus();
+  });
+
+  // STAT COUNTERS
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const card = entry.target;
+        const target = parseInt(card.getAttribute('data-target'), 10);
+        const counterSpan = card.querySelector('.counter');
+        let count = 0;
+        const duration = 1200; // ms
+        const stepTime = Math.max(Math.floor(duration / target), 15);
+        
+        const timer = setInterval(() => {
+          count += 1;
+          counterSpan.textContent = count;
+          if (count >= target) {
+            counterSpan.textContent = target;
+            clearInterval(timer);
+          }
+        }, stepTime);
+        
+        counterObserver.unobserve(card);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.stat-card[data-target]').forEach(el => counterObserver.observe(el));
+
+  // MAGNETIC GLOW EFFECT
+  document.querySelectorAll('.glow-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+    });
+  });
+
+  // NAV SCROLLSPY
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a:not(.nav-cta)');
+
+  const scrollspy = () => {
+    const scrollPos = window.scrollY || document.documentElement.scrollTop;
+    
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 150;
+      const sectionHeight = section.offsetHeight;
+      const sectionId = section.getAttribute('id');
+      
+      if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${sectionId}`) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  };
+
+  window.addEventListener('scroll', scrollspy);
+  window.addEventListener('load', scrollspy);
 </script>
 </body>
 </html>

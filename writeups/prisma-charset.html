@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Prisma &amp; MySQL Charset Debugging — Shivank Kumar</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #08090d;
+    --card: #111419;
+    --border: rgba(255,255,255,0.07);
+    --text: #f0f2f7;
+    --muted: #8a8fa8;
+    --accent: #3b7fff;
+    --accent2: #00d4a0;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.7;
+    padding: 4rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 3rem;
+    transition: transform 0.2s;
+  }
+  .back-btn:hover { transform: translateX(-4px); }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1.5rem;
+  }
+  .meta span { display: flex; align-items: center; gap: 0.4rem; }
+  .content {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    backdrop-filter: blur(12px);
+  }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  p { margin-bottom: 1.5rem; color: #b0b5c8; font-weight: 300; }
+  code {
+    background: rgba(255,255,255,0.04);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: var(--accent2);
+  }
+  pre {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid var(--border);
+    padding: 1.2rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: monospace;
+    font-size: 0.85rem;
+    margin: 1.5rem 0;
+  }
+</style>
+</head>
+<body>
+  <a href="../index.html" class="back-btn">← Back to Portfolio</a>
+  <h1>Prisma &amp; MySQL Charset UTF8MB4 Production Debugging</h1>
+  <div class="meta">
+    <span>📅 May 2026</span>
+    <span>🏷️ Database, Debugging</span>
+  </div>
+  <div class="content">
+    <p>We encountered a critical issue in production where database inserts for emojis or special characters started throwing query exceptions (e.g., <code>Incorrect string value</code>) due to database table collations defaulting to <code>latin1</code> rather than full <code>utf8mb4</code>, despite ORM mappings assuming UTF-8 compliance.</p>
+    
+    <h2>The Issue</h2>
+    <p>Prisma does not enforce character set changes natively in raw MySQL schemas unless database default parameters are correctly configured on initial migration. This caused character truncation and write failures on user-generated feedback routes.</p>
+
+    <h2>The Solution</h2>
+    <p>We scripted a safe, lock-free migration plan to alter database character sets and schemas live under load, ensuring zero application locking.</p>
+    
+    <pre>
+-- Alter Database Default Charset
+ALTER DATABASE lawyered_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Safe Lock-Free Alter Table script
+ALTER TABLE Feedback CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    </pre>
+
+    <h2>Result</h2>
+    <p>Successfully migrated all tables with zero lockouts, reducing DB write exception rates to 0% and enabling full character support.</p>
+  </div>
+</body>
+</html>

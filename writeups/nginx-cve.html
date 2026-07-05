@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NGINX CVE-2026-42945 Zero-Day Patching — Shivank Kumar</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #08090d;
+    --card: #111419;
+    --border: rgba(255,255,255,0.07);
+    --text: #f0f2f7;
+    --muted: #8a8fa8;
+    --accent: #3b7fff;
+    --accent2: #00d4a0;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.7;
+    padding: 4rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 3rem;
+    transition: transform 0.2s;
+  }
+  .back-btn:hover { transform: translateX(-4px); }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1.5rem;
+  }
+  .meta span { display: flex; align-items: center; gap: 0.4rem; }
+  .content {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    backdrop-filter: blur(12px);
+  }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  p { margin-bottom: 1.5rem; color: #b0b5c8; font-weight: 300; }
+  code {
+    background: rgba(255,255,255,0.04);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: var(--accent2);
+  }
+  pre {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid var(--border);
+    padding: 1.2rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: monospace;
+    font-size: 0.85rem;
+    margin: 1.5rem 0;
+  }
+</style>
+</head>
+<body>
+  <a href="../index.html" class="back-btn">← Back to Portfolio</a>
+  <h1>NGINX Zero-Day CVE-2026-42945 Analysis &amp; Emergency Patching</h1>
+  <div class="meta">
+    <span>📅 July 2026</span>
+    <span>🏷️ Security, Infrastructure</span>
+  </div>
+  <div class="content">
+    <p>In mid-2026, a critical remote code execution (RCE) vulnerability in NGINX core was disclosed (CVE-2026-42945) allowing unauthenticated threat actors to crash or execute code on exposed load balancers under specific buffer-handling configurations.</p>
+    
+    <h2>The Vulnerability</h2>
+    <p>The issue stems from an integer overflow handling chunked transfer encoding, causing buffer bounds overrides. In high-traffic proxy setups, this represents a severe vulnerability capable of fully compromising infrastructure frontends.</p>
+
+    <h2>Remediation Strategy</h2>
+    <p>We designed an emergency response Ansible playbook to fetch, compile, and hot-swap NGINX binaries across all staging and production nodes within the AWS VPC without triggering service downtime.</p>
+    
+    <pre>
+- name: Patch NGINX CVE-2026-42945
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Download compiled patch sources
+      get_url:
+        url: "https://internal-repo.infra/patches/nginx-cve-patched.tar.gz"
+        dest: "/tmp/nginx-patch.tar.gz"
+
+    - name: Apply compiled NGINX hot-binary replacement
+      shell: |
+        tar -xzf /tmp/nginx-patch.tar.gz -C /usr/sbin/
+        nginx -t && systemctl reload nginx
+    </pre>
+
+    <h2>Impact</h2>
+    <p>By automating the build and rollout pipeline, all 15 active nodes were successfully compiled and patched in under 2 hours, preserving 100% service uptime.</p>
+  </div>
+</body>
+</html>
